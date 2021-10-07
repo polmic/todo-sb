@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TodoItemRepository {
     List<TodoItem> findAll();
+
+    TodoItem updateItem(TodoItem item);
 }

@@ -1,13 +1,13 @@
 package com.example.todolist.controllers;
 
+import com.example.todolist.exceptions.TodoItemNotFoundException;
 import com.example.todolist.models.TodoItem;
 import com.example.todolist.services.TodoService;
+import com.example.todolist.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,9 +23,25 @@ public class TodoController {
 
     @CrossOrigin
     @GetMapping("/todo")
-    public ResponseEntity<List<TodoItem>> findAll() {
+    public @ResponseBody
+    ResponseEntity<List<TodoItem>> findAll() {
         List<TodoItem> items = todoService.findAll();
         return new ResponseEntity<>(items, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PutMapping("/todo/item/{uuid}")
+    public @ResponseBody
+    ResponseEntity<TodoItem> updateItem(
+            @PathVariable
+                    String uuid,
+            @RequestBody
+                    TodoItem item) {
+        if (uuid == null || item.getUuid() == null) {
+            throw new TodoItemNotFoundException(Constants.ErrorMessages.INVALID_ID);
+        }
+        todoService.updateItem(item);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

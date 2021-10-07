@@ -17,4 +17,13 @@ public class TodoItemExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handleException(TodoItemNotFoundException ine){
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setMessage(ine.getMessage());
+        errorResponse.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+    }
+
 }
