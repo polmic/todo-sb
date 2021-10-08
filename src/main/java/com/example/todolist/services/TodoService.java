@@ -10,4 +10,6 @@ public interface TodoService {
     TodoItem getItem(String uuid);
 
     TodoItem updateItem(TodoItem item);
+
+    TodoItem saveItem(TodoItem item);
 }

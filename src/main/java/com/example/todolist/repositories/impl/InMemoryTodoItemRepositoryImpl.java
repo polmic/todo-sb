@@ -46,4 +46,10 @@ public class InMemoryTodoItemRepositoryImpl implements TodoItemRepository {
         return toUpdate;
     }
 
+    @Override
+    public TodoItem saveItem(TodoItem item) {
+        todoList.add(0, item);
+        return item;
+    }
+
 }

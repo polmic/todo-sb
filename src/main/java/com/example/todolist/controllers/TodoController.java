@@ -1,10 +1,8 @@
 package com.example.todolist.controllers;
 
 import com.example.todolist.aop.CheckUUID;
-import com.example.todolist.exceptions.TodoItemNotFoundException;
 import com.example.todolist.models.TodoItem;
 import com.example.todolist.services.TodoService;
-import com.example.todolist.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +37,16 @@ public class TodoController {
                     String uuid) {
         TodoItem item = todoService.getItem(uuid);
         return new ResponseEntity<>(item, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/todo")
+    public @ResponseBody
+    ResponseEntity<TodoItem> saveItem(
+            @RequestBody
+                    TodoItem item) {
+        TodoItem saved = todoService.saveItem(item);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @CrossOrigin

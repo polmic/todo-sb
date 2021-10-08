@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TodoServiceImpl implements TodoService {
@@ -22,6 +23,13 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoItem updateItem(TodoItem item) {
         return todoItemRepository.updateItem(item);
+    }
+
+    @Override
+    public TodoItem saveItem(TodoItem item) {
+        item.setUuid(UUID.randomUUID());
+        item.setDone(false);
+        return todoItemRepository.saveItem(item);
     }
 
     @Override
