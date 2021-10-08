@@ -24,4 +24,9 @@ public class TodoServiceImpl implements TodoService {
         return todoItemRepository.updateItem(item);
     }
 
+    @Override
+    public TodoItem getItem(String uuid) {
+        return todoItemRepository.getItem(uuid);
+    }
+
 }

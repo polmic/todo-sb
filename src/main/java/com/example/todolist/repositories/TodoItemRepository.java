@@ -7,5 +7,7 @@ import java.util.List;
 public interface TodoItemRepository {
     List<TodoItem> findAll();
 
+    TodoItem getItem(String uuid);
+
     TodoItem updateItem(TodoItem item);
 }

@@ -34,9 +34,9 @@ public class TodoControllerTests {
     @MockBean
     TodoService todoService;
 
-    TodoItem Todo1 = new TodoItem(UUID.randomUUID(), "Do the dishes", false);
-    TodoItem Todo2 = new TodoItem(UUID.randomUUID(), "Mow the lawn", false);
-    TodoItem Todo3 = new TodoItem(UUID.randomUUID(), "Hide the beers", true);
+    TodoItem Todo1 = new TodoItem(UUID.randomUUID(), "Do the dishes", "", false);
+    TodoItem Todo2 = new TodoItem(UUID.randomUUID(), "Mow the lawn", "", false);
+    TodoItem Todo3 = new TodoItem(UUID.randomUUID(), "Hide the beers", "", true);
 
     @Test
     public void getAllItems() throws Exception {
@@ -52,7 +52,7 @@ public class TodoControllerTests {
 
     @Test
     public void updateItem_success() throws Exception {
-        TodoItem Todo1Updated = new TodoItem(Todo1.getUuid(), "Do the dishes", true);
+        TodoItem Todo1Updated = new TodoItem(Todo1.getUuid(), "Do the dishes", "", true);
         Mockito.when(todoService.updateItem(Todo1Updated)).thenReturn(Todo1Updated);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/todo/item/" + Todo1.getUuid())
@@ -66,7 +66,7 @@ public class TodoControllerTests {
 
     @Test
     public void updateItemBadURI_notFound() throws Exception {
-        TodoItem Todo1Updated = new TodoItem(Todo1.getUuid(), "Do the dishes", true);
+        TodoItem Todo1Updated = new TodoItem(Todo1.getUuid(), "Do the dishes", "", true);
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/todo/item/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)

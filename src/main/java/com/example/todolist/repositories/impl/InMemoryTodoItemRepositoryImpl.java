@@ -17,9 +17,9 @@ public class InMemoryTodoItemRepositoryImpl implements TodoItemRepository {
 
     public InMemoryTodoItemRepositoryImpl() {
         this.todoList = new ArrayList<>();
-        todoList.add(new TodoItem(UUID.randomUUID(), "Do the dishes", false));
-        todoList.add(new TodoItem(UUID.randomUUID(), "Mow the lawn", false));
-        todoList.add(new TodoItem(UUID.randomUUID(), "Hide the beers", true));
+        todoList.add(new TodoItem(UUID.randomUUID(), "Do the dishes", "Needs to be done before lunch", false));
+        todoList.add(new TodoItem(UUID.randomUUID(), "Mow the lawn", "It's a jungle out there", false));
+        todoList.add(new TodoItem(UUID.randomUUID(), "Hide the beers", "Don't forget to get more", true));
     }
 
     @Override
@@ -28,14 +28,22 @@ public class InMemoryTodoItemRepositoryImpl implements TodoItemRepository {
     }
 
     @Override
-    public TodoItem updateItem(TodoItem toUpdate) {
-        TodoItem listItem = todoList.stream().filter(i -> i.getUuid().equals(toUpdate.getUuid())).findFirst().orElse(null);
-        if (listItem != null) {
-            listItem.setDone(toUpdate.isDone());
-            return toUpdate;
-        } else {
+    public TodoItem getItem(String uuid) {
+        TodoItem item = todoList.stream().filter(i -> i.getUuid().toString().equals(uuid)).findFirst().orElse(null);
+        if (item == null) {
             throw new TodoItemNotFoundException(Constants.ErrorMessages.ITEM_NOT_FOUND);
         }
+        return item;
+    }
+
+    @Override
+    public TodoItem updateItem(TodoItem toUpdate) {
+        TodoItem listItem = todoList.stream().filter(i -> i.getUuid().equals(toUpdate.getUuid())).findFirst().orElse(null);
+        if (listItem == null) {
+            throw new TodoItemNotFoundException(Constants.ErrorMessages.ITEM_NOT_FOUND);
+        }
+        listItem.setDone(toUpdate.isDone());
+        return toUpdate;
     }
 
 }

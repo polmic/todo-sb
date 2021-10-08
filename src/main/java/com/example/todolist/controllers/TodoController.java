@@ -1,5 +1,6 @@
 package com.example.todolist.controllers;
 
+import com.example.todolist.aop.CheckUUID;
 import com.example.todolist.exceptions.TodoItemNotFoundException;
 import com.example.todolist.models.TodoItem;
 import com.example.todolist.services.TodoService;
@@ -30,16 +31,25 @@ public class TodoController {
     }
 
     @CrossOrigin
+    @GetMapping("/todo/item/{uuid}")
+    @CheckUUID
+    public @ResponseBody
+    ResponseEntity<TodoItem> getItem(
+            @PathVariable
+                    String uuid) {
+        TodoItem item = todoService.getItem(uuid);
+        return new ResponseEntity<>(item, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PutMapping("/todo/item/{uuid}")
+    @CheckUUID
     public @ResponseBody
     ResponseEntity<TodoItem> updateItem(
             @PathVariable
                     String uuid,
             @RequestBody
                     TodoItem item) {
-        if (uuid == null || item.getUuid() == null) {
-            throw new TodoItemNotFoundException(Constants.ErrorMessages.INVALID_ID);
-        }
         todoService.updateItem(item);
         return new ResponseEntity<>(HttpStatus.OK);
     }
